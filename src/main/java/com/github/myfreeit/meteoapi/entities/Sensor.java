@@ -1,4 +1,4 @@
-package com.github.myfreeit.meteoapi.entity;
+package com.github.myfreeit.meteoapi.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
