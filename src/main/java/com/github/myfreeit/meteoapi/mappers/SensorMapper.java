@@ -5,7 +5,7 @@ import com.github.myfreeit.meteoapi.entities.Sensor;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-interface SensorMapper {
+public interface SensorMapper {
     SensorDto toDto(Sensor sensor);
     Sensor toEntity(SensorDto sensorDto);
 }
