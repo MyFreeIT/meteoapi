@@ -2,6 +2,7 @@ package com.github.myfreeit.meteoapi.services;
 
 import com.github.myfreeit.meteoapi.dto.MeasurementDto;
 import com.github.myfreeit.meteoapi.entities.Measurement;
+import com.github.myfreeit.meteoapi.entities.Sensor;
 import com.github.myfreeit.meteoapi.mappers.MeasurementMapper;
 import com.github.myfreeit.meteoapi.repositories.MeasurementRepository;
 import com.github.myfreeit.meteoapi.repositories.SensorRepository;
@@ -22,11 +23,9 @@ public class MeasurementService {
     @Transactional
     public MeasurementDto save(MeasurementDto dto) {
 
-        if(sensorRepository.existsByName(dto.sensorDto().name())) {
-            throw new IllegalArgumentException("Sensor with name '%s' not found".formatted(dto.sensorDto().name()));
-        }
-
         Measurement measurement = measurementMapper.toEntity(dto);
+        Sensor sensor = getSensorByName(dto.sensorDto().name());
+        measurement.setSensor(sensor);
 
         return measurementMapper.toDto(measurementRepository.save(measurement));
     }
@@ -41,5 +40,10 @@ public class MeasurementService {
     public long countsRainyDays() {
 
         return measurementRepository.countByRainingTrue();
+    }
+
+    private Sensor getSensorByName(String name) {
+        return sensorRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("Sensor with name '%s' not found".formatted(name)));
     }
 }
