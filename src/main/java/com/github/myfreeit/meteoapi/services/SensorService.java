@@ -18,9 +18,10 @@ public class SensorService {
 
     @Transactional
     public SensorDto save(SensorDto dto) {
-        if (sensorRepository.existsByName(dto.name())) {
-            throw new IllegalArgumentException("Sensor with name '%s' already exists".formatted(dto.name()));
-        }
+        sensorRepository.findByName(dto.name())
+                .ifPresent(sensor -> {
+                    throw new IllegalArgumentException("Sensor with name '%s' already exists".formatted(dto.name()));
+                });
         Sensor sensor = sensorMapper.toEntity(dto);
         return sensorMapper.toDto(sensorRepository.save(sensor));
     }
