@@ -1,6 +1,7 @@
 package com.github.myfreeit.meteoapi.services;
 
 import com.github.myfreeit.meteoapi.dto.MeasurementDto;
+import com.github.myfreeit.meteoapi.dto.MeasurementsResponse;
 import com.github.myfreeit.meteoapi.entities.Measurement;
 import com.github.myfreeit.meteoapi.entities.Sensor;
 import com.github.myfreeit.meteoapi.mappers.MeasurementMapper;
@@ -9,8 +10,6 @@ import com.github.myfreeit.meteoapi.repositories.SensorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,11 +29,11 @@ public class MeasurementService {
         return measurementMapper.toDto(measurementRepository.save(measurement));
     }
 
-    public List<MeasurementDto> findAll() {
+    public MeasurementsResponse findAll() {
 
-        return measurementRepository.findAll().stream()
+        return new MeasurementsResponse(measurementRepository.findAll().stream()
                 .map(measurementMapper::toDto)
-                .toList();
+                .toList());
     }
 
     public long countsRainyDays() {
