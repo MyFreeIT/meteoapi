@@ -1,13 +1,12 @@
 package com.github.myfreeit.meteoapi.controllers;
 
 import com.github.myfreeit.meteoapi.dto.MeasurementDto;
+import com.github.myfreeit.meteoapi.dto.MeasurementsResponse;
 import com.github.myfreeit.meteoapi.services.MeasurementService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/measurements")
@@ -23,7 +22,7 @@ public class MeasurementController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MeasurementDto>> getAll() {
+    public ResponseEntity<MeasurementsResponse> getAll() {
         return ResponseEntity.ok(measurementService.findAll());
     }
 
